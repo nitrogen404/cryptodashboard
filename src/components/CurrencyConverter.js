@@ -9,16 +9,17 @@ const CurrencyConverter = () => {
       const [chosenSecondaryCurrency, setChosenSecondaryCurrency] = useState('BTC');
       const [amount, setAmount] = useState(1);
       const [exchangeRate, setExchangeRate] = useState('');
-      const [result, setResult] = useState(0);
+      const [result, setResult] = useState("");
       const [lastRefreshed, setRefreshed] = useState("");
 
       const currencyConversion = () => {
+            
             const options = {
                   method: 'GET',
                   url: 'https://alpha-vantage.p.rapidapi.com/query',
                   params: {from_currency: choosenPrimaryCurrency, function: 'CURRENCY_EXCHANGE_RATE', to_currency: chosenSecondaryCurrency},
                   headers: {
-                    'X-RapidAPI-Key': '6347f1ad58msh67a9312f6e054ecp1e7799jsnf348d0d871bc',
+                    'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API,
                     'X-RapidAPI-Host': 'alpha-vantage.p.rapidapi.com'
                   }
                 };
@@ -32,7 +33,7 @@ const CurrencyConverter = () => {
                   console.error(error);
             });
       };
-      
+      console.log("result: ", result);
       return (
             <div className="currency-converter">
                   <h2>Currency Converter</h2>
