@@ -26,15 +26,18 @@ const NewsFeed = () => {
       const firstSevenArticles = articles?.slice(0, 5);
       // console.log("First Seven articles ", firstSevenArticles)
       return (
-            <div className="news-feed">
-                  <h2>Crypto News Articles</h2>
-                  {firstSevenArticles?.map((article, _index) => (
-                        <div key={_index}>
-                              <a href={article.url}>
-                                    <p>{article.title}</p>
-                              </a>
-                        </div>))
-                  }
+            <div className="className=container mx-auto px-10 py-10 bg-slate-100 rounded-lg">
+                  <h2 className="font-sans text-5xl">Crypto News Articles</h2>
+                  <div className="py-10 pl-2">
+                        {firstSevenArticles?.map((article, _index) => (
+                              <div key={_index} className="my-3">
+                                    <a href={article.url}>
+                                          <p className="text-blue-600 text-xl font-sans">{article.title}</p>
+                                    </a>
+                              </div>))
+                        }
+                  </div>
+                  
             </div>
       )
 }

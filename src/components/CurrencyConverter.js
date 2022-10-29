@@ -7,11 +7,14 @@ const CurrencyConverter = () => {
       const currencies = ['BTC', 'ETH', 'USD', 'XRP', 'LTC', 'ADA']
       const [choosenPrimaryCurrency, setChoosenPrimaryCurrency] = useState('BTC');
       const [chosenSecondaryCurrency, setChosenSecondaryCurrency] = useState('BTC');
+      const [primaryCurrencyExchanged, setPrimaryCurrencyExchanged] = useState('BTC');
+      const [secondaryCurrencyExchanged, setSecondaryCurrencyExchanged] = useState('BTC');
+
       const [amount, setAmount] = useState(1);
       const [exchangeRate, setExchangeRate] = useState('');
       const [result, setResult] = useState("");
       const [lastRefreshed, setRefreshed] = useState("");
-
+      
       const currencyConversion = () => {
             
             const options = {
@@ -29,26 +32,31 @@ const CurrencyConverter = () => {
                   setExchangeRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate']);
                   setResult(exchangeRate * amount);
                   setRefreshed(response.data['Realtime Currency Exchange Rate']['6. Last Refreshed'])
+                  setPrimaryCurrencyExchanged(choosenPrimaryCurrency);
+                  setSecondaryCurrencyExchanged(chosenSecondaryCurrency);
+                  
             }).catch(function (error) {
                   console.error(error);
             });
       };
-      console.log("result: ", result);
+      console.log("Primary currency exchanged ", primaryCurrencyExchanged);
+      console.log("secondary currency exchanged ", secondaryCurrencyExchanged)
+
       return (
-            <div className="currency-converter">
-                  <h2>Currency Converter</h2>
-                  <div>
+            <div className="container mx-auto px-10 py-10 bg-slate-100 rounded-lg">
+                  <h2 className="font-sans text-5xl">Currency Converter</h2>
+                  <div className="py-10 pl-5">
                         <table>
                               <tbody>
                                     <tr>
-                                          <td>Primary Currency</td>
+                                          <td className="font-sans text-xl">Primary Currency</td>
                                           <td>
-                                                <input type="number" name="currency-amount-1" value={amount} onChange={(e) => setAmount(e.target.value)}></input>
+                                                <input className="text-center" type="number" name="currency-amount-1" value={amount} onChange={(e) => setAmount(e.target.value)}></input>
                                           </td>
                                           <td>
-                                                <select value={choosenPrimaryCurrency} 
+                                                <select  value={choosenPrimaryCurrency} 
                                                       name="currency-option-1" 
-                                                      className="currency-options"
+                                                      className="currency-options text-center font-sans text-xs"
                                                       onChange={(e) => setChoosenPrimaryCurrency(e.target.value)}
                                                 >
                                                       {currencies.map((currency, _index) => (<option key={_index}>{currency}</option>))}
@@ -57,14 +65,14 @@ const CurrencyConverter = () => {
                                     </tr>
 
                                     <tr>
-                                          <td>Secondary Currency</td>
+                                          <td className="font-sans text-xl">Secondary Currency</td>
                                           <td>
-                                                <input type="number" name="currency-amount-2" value={result} disabled={true}></input>
+                                                <input className="text-center" type="number" name="currency-amount-2" value={result} disabled={true}></input>
                                           </td>
                                           <td>
                                                 <select value={chosenSecondaryCurrency} 
                                                       name="currency-option-2" 
-                                                      className="currency-options" 
+                                                      className="currency-options text-center font-sans text-xs" 
                                                       onChange={(e) => setChosenSecondaryCurrency(e.target.value)}
                                                 >
                                                       {currencies.map((currency, _index) => (<option key={_index}>{currency}</option>))}
@@ -73,12 +81,13 @@ const CurrencyConverter = () => {
                                     </tr>
                               </tbody>
                         </table>
-                        <button id="convert-button" onClick={currencyConversion}>Convert</button>
-                  </div>
+                        <button className="rounded-lg bg-cyan-500 p-5 m-5 font-sans text-2xl font-medium text-center text-white" id="convert-button" onClick={currencyConversion}>Convert</button>
+                  </div> 
+                  
                   <ExchangeRate exchangeRate={exchangeRate} 
                               lastRefreshed={lastRefreshed} 
-                              choosenPrimaryCurrency={choosenPrimaryCurrency} 
-                              chosenSecondaryCurrency={chosenSecondaryCurrency} >
+                              choosenPrimaryCurrency={primaryCurrencyExchanged} 
+                              chosenSecondaryCurrency={secondaryCurrencyExchanged} >
                   </ExchangeRate>
             </div>
       )
